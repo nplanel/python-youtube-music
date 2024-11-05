@@ -86,6 +86,7 @@ class BaseYouTubeMusicDL(object):
                 'outtmpl':        str(path_file),
                 'postprocessors': post_processors,
                 'format':         format,
+                'cookiefile':     "cookies",
             }
         )
 
