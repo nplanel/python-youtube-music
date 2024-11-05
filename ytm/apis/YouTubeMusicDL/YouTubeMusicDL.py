@@ -90,11 +90,18 @@ class BaseYouTubeMusicDL(object):
             }
         )
 
-        url = utils.url_yt \
-        (
-            'watch',
-            params = {'v': song_id},
-        )
+        if video:
+            url = utils.url_yt \
+                (
+                    'watch',
+                    params = {'v': song_id},
+                )
+        else:
+            url = utils.url_ytm \
+                (
+                    'watch',
+                    params = {'v': song_id},
+                )
 
         info = ytdl.extract_info \
         (
