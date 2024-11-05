@@ -25,7 +25,7 @@ import requests
 class BaseYouTubeMusicDL(object):
     def __init__(self, youtube_downloader=None):
         if not youtube_downloader:
-            import youtube_dl
+            import yt_dlp as youtube_dl
             youtube_downloader = youtube_dl.YoutubeDL
         self._yt_dl = youtube_downloader
 

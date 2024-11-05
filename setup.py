@@ -17,7 +17,7 @@ DEPENDENCIES_OPTIONAL = \
 {
     'dl': \
     (
-        'youtube-dl',
+        'yt_dlp',
         'mutagen',
         'Pillow',
     ),
