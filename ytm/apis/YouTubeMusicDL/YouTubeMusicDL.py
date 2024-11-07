@@ -49,7 +49,7 @@ class BaseYouTubeMusicDL(object):
         import mutagen.mp4
         import mutagen.easymp4
 
-        file_name_format = '%(title)s.%(ext)s'
+        file_name_format = '%(artist)s - %(album)s - %(title)s.%(ext)s'
 
         if not metadata:
             metadata = {}
@@ -126,16 +126,23 @@ class BaseYouTubeMusicDL(object):
         )
         info.setdefault('track', any_title)
 
-        sanitized_name = info['title']
-        illegal_chars = ['\\', '/', ':', '*', '?', '<', '>', '|', '"']
-        for char in illegal_chars:
-            sanitized_name = sanitized_name.replace(char, '_')
+        def sanitized_name(name):
+            illegal_chars = ['\\', '/', ':', '*', '?', '<', '>', '|', '"']
+            for char in illegal_chars:
+                name = name.replace(char, '_')
+            return name
+
+        sanitized_artist = sanitized_name(info['artist'])
+        sanitized_album = sanitized_name(info['album'])
+        sanitized_title = sanitized_name(info['title'])
         file_path_src = self._get_file_path \
         (
             info,
             file_name_format % \
             {
-                'title': sanitized_name,
+                'artist': sanitized_artist,
+                'album': sanitized_album,
+                'title': sanitized_title,
                 'ext': to_ext,
             },
             directory,
@@ -145,7 +152,9 @@ class BaseYouTubeMusicDL(object):
         (
             file_name_format % \
             {
-                'title': sanitized_name,
+                'artist': sanitized_artist,
+                'album': sanitized_album,
+                'title': sanitized_title,
                 'ext':   to_ext,
             }
         )
