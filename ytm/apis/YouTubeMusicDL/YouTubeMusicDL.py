@@ -59,7 +59,8 @@ class BaseYouTubeMusicDL(object):
         else:
             path_directory = pathlib.Path(os.getcwd())
 
-        path_file = path_directory.joinpath(file_name_format)
+        outtmpl_file_format = '%(id)s.%(ext)s'
+        path_file = path_directory.joinpath(outtmpl_file_format)
 
         post_processors = []
 
@@ -135,14 +136,16 @@ class BaseYouTubeMusicDL(object):
         sanitized_artist = sanitized_name(info['artist'])
         sanitized_album = sanitized_name(info['album'])
         sanitized_title = sanitized_name(info['title'])
+
         file_path_src = self._get_file_path \
         (
             info,
-            file_name_format % \
+            outtmpl_file_format % \
             {
                 'artist': sanitized_artist,
                 'album': sanitized_album,
                 'title': sanitized_title,
+                'id': info['id'],
                 'ext': to_ext,
             },
             directory,
@@ -158,6 +161,8 @@ class BaseYouTubeMusicDL(object):
                 'ext':   to_ext,
             }
         )
+
+        os.rename(file_path_src, file_path_dst)
 
         if not thumbnail:
             thumbnail = self._get_album_art(info['thumbnails'][0]['url'], crop=True)
